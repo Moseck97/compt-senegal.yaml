@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: API d'Expertise Financière, Comptable et Fiscale Sénégalaise
+  version: 1.0.0
+  description: |
+    API destinée à fournir des informations et des analyses conformes aux normes OHADA/SYSCOHADA et à la législation fiscale sénégalaise.
+servers:
+  - url: https://api.finance-senegal.com
+paths:
+  /comptabilite/plan-comptable:
+    get:
+      summary: Obtenir des informations sur un compte du plan comptable OHADA
+      operationId: getComptePlanComptable
+      parameters:
+        - name: numero_compte
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Numéro du compte (ex: "401")
+      responses:
+        '200':
+          description: Détails du compte demandé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompteComptable'
+
+  /fiscalite/taux-imposition:
+    get:
+      summary: Obtenir les taux d'imposition en vigueur au Sénégal
+      operationId: getTauxImposition
+      parameters:
+        - name: type_impot
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [IS, TVA, IRPP]
+          description: Type d'impôt (IS: Impôt sur les Sociétés, TVA: Taxe sur la Valeur Ajoutée, IRPP: Impôt sur le Revenu des Personnes Physiques)
+      responses:
+        '200':
+          description: Taux d'imposition actuel
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TauxImposition'
+
+  /analyse-financiere/ratios:
+    post:
+      summary: Calculer des ratios financiers selon les normes OHADA
+      operationId: calculerRatiosFinanciers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DonneesFinancieres'
+      responses:
+        '200':
+          description: Résultats des ratios financiers calculés
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RatiosFinanciers'
+
+components:
+  schemas:
+    CompteComptable:
+      type: object
+      properties:
+        numero:
+          type: string
+          example: "401"
+        intitule:
+          type: string
+          example: "Fournisseurs"
+        description:
+          type: string
+          example: "Compte utilisé pour enregistrer les dettes envers les fournisseurs."
+        classe:
+          type: integer
+          example: 4
+
+    TauxImposition:
+      type: object
+      properties:
+        type_impot:
+          type: string
+          example: "IS"
+        taux:
+          type: number
+          format: float
+          example: 30.0
+        description:
+          type: string
+          example: "Taux de l'Impôt sur les Sociétés au Sénégal."
+
+    DonneesFinancieres:
+      type: object
+      properties:
+        total_actif:
+          type: number
+          format: float
+        total_passif:
+          type: number
+          format: float
+        capitaux_propres:
+          type: number
+          format: float
+        chiffre_affaires:
+          type: number
+          format: float
+        resultat_net:
+          type: number
+          format: float
+
+    RatiosFinanciers:
+      type: object
+      properties:
+        ratio_liquidite:
+          type: number
+          format: float
+        ratio_solvabilite:
+          type: number
+          format: float
+        rentabilite_financiere:
+          type: number
+          format: float
