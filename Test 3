@@ -12,8 +12,8 @@ paths:
       summary: Obtenir des informations sur un compte du plan comptable OHADA
       operationId: getComptePlanComptable
       parameters:
-        - name: numero_compte
-          in: query
+        - in: query
+          name: numero_compte
           required: true
           schema:
             type: string
