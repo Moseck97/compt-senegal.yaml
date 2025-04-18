@@ -31,8 +31,8 @@ paths:
       summary: Obtenir les taux d'imposition en vigueur au Sénégal
       operationId: getTauxImposition
       parameters:
-        - name: type_impot
-          in: query
+        - in: query
+          name: type_impot
           required: true
           schema:
             type: string
