@@ -9,6 +9,7 @@ servers:
 paths:
   /plan-comptable/classe/{numero_classe}:
     get:
+      operationId: getClasseComptable
       summary: Obtenir les comptes d'une classe spécifique
       parameters:
         - in: path
@@ -16,10 +17,10 @@ paths:
           required: true
           schema:
             type: integer
-          description: Numéro de la classe (ex: 6 pour les charges)
+          description: "Numéro de la classe (ex: 6 pour les charges)"
       responses:
         '200':
-          description: Liste des comptes de la classe demandée
+          description: "Liste des comptes de la classe demandée"
           content:
             application/json:
               schema:
